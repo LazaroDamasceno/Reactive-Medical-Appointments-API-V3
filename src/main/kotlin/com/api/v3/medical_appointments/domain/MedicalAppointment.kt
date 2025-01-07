@@ -1,5 +1,6 @@
-package com.api.v3.medical_slots.domain
+package com.api.v3.medical_appointments.domain
 
+import com.api.v3.customers.domain.Customer
 import com.api.v3.doctors.domain.Doctor
 import org.bson.codecs.pojo.annotations.BsonId
 import org.bson.types.ObjectId
@@ -8,14 +9,15 @@ import java.time.LocalDateTime
 import java.time.ZoneId
 
 @Document
-class MedicalSlot(
+class MedicalAppointment(
+    var customer: Customer,
     var doctor: Doctor,
-    var availableAt: LocalDateTime
+    var bookedAt: LocalDateTime
 ) {
 
     @BsonId
     val id: ObjectId = ObjectId()
-    val availableAtZone: ZoneId = ZoneId.systemDefault()
+    val bookedAtZoneId: ZoneId = ZoneId.systemDefault()
     val createdAt: LocalDateTime = LocalDateTime.now()
     val createdAtZone: ZoneId = ZoneId.systemDefault()
     var canceledAt: LocalDateTime? = null
@@ -24,18 +26,22 @@ class MedicalSlot(
     var completedAtZone: ZoneId? = null
 
     companion object {
-        fun create(doctor: Doctor, availableAt: LocalDateTime): MedicalSlot {
-            return MedicalSlot(doctor, availableAt)
+        fun create(
+            customer: Customer,
+            doctor: Doctor,
+            bookedAt: LocalDateTime
+        ): MedicalAppointment {
+            return MedicalAppointment(customer, doctor, bookedAt)
         }
-    }
-
-    fun markAsCompleted() {
-        completedAt = LocalDateTime.now()
-        completedAtZone = ZoneId.systemDefault()
     }
 
     fun markAsCanceled() {
         canceledAt = LocalDateTime.now()
         canceledAtZone = ZoneId.systemDefault()
+    }
+
+    fun markAsCompleted() {
+        completedAt = LocalDateTime.now()
+        completedAtZone = ZoneId.systemDefault()
     }
 }
