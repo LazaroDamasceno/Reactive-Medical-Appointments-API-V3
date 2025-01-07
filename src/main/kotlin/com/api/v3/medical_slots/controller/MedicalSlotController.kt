@@ -35,4 +35,14 @@ class MedicalSlotController(
     suspend fun findAll(): Flow<MedicalSlotResponseDto> {
         return retrievalService.findAll()
     }
+
+    @PatchMapping("{id}/completion")
+    suspend fun complete(@PathVariable id: String) {
+        return completionService.complete(id)
+    }
+
+    @PatchMapping("{id}/cancellation")
+    suspend fun cancel(@PathVariable id: String) {
+        return cancellationService.cancel(id)
+    }
 }
