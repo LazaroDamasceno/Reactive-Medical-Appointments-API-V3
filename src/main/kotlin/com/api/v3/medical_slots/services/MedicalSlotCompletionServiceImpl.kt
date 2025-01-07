@@ -1,16 +1,15 @@
-package com.api.v3.medical_slots.services.impl
+package com.api.v3.medical_slots.services
 
 import com.api.v3.medical_slots.domain.MedicalSlot
 import com.api.v3.medical_slots.domain.MedicalSlotRepository
 import com.api.v3.medical_slots.exceptions.ImmutableMedicalSlotException
-import com.api.v3.medical_slots.services.MedicalSlotCancellationService
 import com.api.v3.medical_slots.utils.MedicalSlotFinderUtil
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.springframework.stereotype.Service
 
 @Service
-class MedicalSlotCancellationServiceImpl(
+class MedicalSlotCompletionServiceImpl(
     private val medicalSlotFinderUtil: MedicalSlotFinderUtil,
     private val medicalSlotRepository: MedicalSlotRepository
 ): MedicalSlotCancellationService {
@@ -20,7 +19,7 @@ class MedicalSlotCancellationServiceImpl(
             val foundMedicalSlot = medicalSlotFinderUtil.findById(id)
             onCanceledMedicalSlot(foundMedicalSlot)
             onCompletedMedicalSlot(foundMedicalSlot)
-            foundMedicalSlot.markAsCanceled()
+            foundMedicalSlot.markAsCompleted()
             medicalSlotRepository.save(foundMedicalSlot)
         }
     }

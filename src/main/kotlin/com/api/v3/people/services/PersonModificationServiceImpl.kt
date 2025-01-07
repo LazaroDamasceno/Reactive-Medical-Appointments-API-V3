@@ -1,11 +1,11 @@
-package com.api.v3.people.services.impl
+package com.api.v3.people.services
 
 import com.api.v3.people.domain.Person
 import com.api.v3.people.domain.PersonAuditTrail
 import com.api.v3.people.domain.PersonAuditTrailRepository
 import com.api.v3.people.domain.PersonRepository
 import com.api.v3.people.dtos.PersonModificationDto
-import com.api.v3.people.services.interfaces.PersonModificationService
+import com.api.v3.people.services.exposed.PersonModificationService
 import jakarta.validation.Valid
 import jakarta.validation.constraints.NotNull
 import kotlinx.coroutines.Dispatchers

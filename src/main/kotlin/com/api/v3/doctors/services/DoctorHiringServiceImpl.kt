@@ -1,13 +1,12 @@
-package com.api.v3.doctors.services.impl
+package com.api.v3.doctors.services
 
 import com.api.v3.doctors.domain.Doctor
 import com.api.v3.doctors.domain.DoctorRepository
 import com.api.v3.doctors.dtos.DoctorHiringDto
 import com.api.v3.doctors.dtos.DoctorResponseDto
 import com.api.v3.doctors.exceptions.DuplicatedMedicalLicenseNumberException
-import com.api.v3.doctors.services.DoctorHiringService
 import com.api.v3.doctors.utils.DoctorResponseMapper
-import com.api.v3.people.services.interfaces.PersonRegistrationService
+import com.api.v3.people.services.exposed.PersonRegistrationService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.singleOrNull

@@ -1,8 +1,7 @@
-package com.api.v3.doctors.services.impl
+package com.api.v3.doctors.services
 
 import com.api.v3.doctors.domain.DoctorRepository
 import com.api.v3.doctors.dtos.DoctorResponseDto
-import com.api.v3.doctors.services.DoctorRetrievalService
 import com.api.v3.doctors.utils.DoctorFinderUtil
 import com.api.v3.doctors.utils.DoctorResponseMapper
 import kotlinx.coroutines.Dispatchers

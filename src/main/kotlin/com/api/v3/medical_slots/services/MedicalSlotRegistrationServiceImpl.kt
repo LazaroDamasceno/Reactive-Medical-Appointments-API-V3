@@ -1,4 +1,4 @@
-package com.api.v3.medical_slots.services.impl
+package com.api.v3.medical_slots.services
 
 import com.api.v3.doctors.domain.Doctor
 import com.api.v3.doctors.utils.DoctorFinderUtil
@@ -7,7 +7,6 @@ import com.api.v3.medical_slots.domain.MedicalSlotRepository
 import com.api.v3.medical_slots.dtos.MedicalSlotRegistrationDto
 import com.api.v3.medical_slots.dtos.MedicalSlotResponseDto
 import com.api.v3.medical_slots.exceptions.UnavailableMedicalSlotException
-import com.api.v3.medical_slots.services.MedicalSlotRegistrationService
 import com.api.v3.medical_slots.utils.MedicalSlotResponseMapper
 import jakarta.validation.Valid
 import kotlinx.coroutines.Dispatchers

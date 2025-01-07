@@ -1,10 +1,9 @@
-package com.api.v3.customers.services.impl
+package com.api.v3.customers.services
 
 import com.api.v3.customers.domain.CustomerRepository
-import com.api.v3.customers.services.CustomerModificationService
 import com.api.v3.customers.utils.CustomerFinderUtil
 import com.api.v3.people.dtos.PersonModificationDto
-import com.api.v3.people.services.interfaces.PersonModificationService
+import com.api.v3.people.services.exposed.PersonModificationService
 import jakarta.validation.Valid
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext

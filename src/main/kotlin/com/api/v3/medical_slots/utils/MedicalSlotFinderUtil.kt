@@ -17,7 +17,8 @@ class MedicalSlotFinderUtil(
         return withContext(Dispatchers.IO) {
             val foundMedicalSlot = medicalSlotRepository.findById(ObjectId(id))
             if (foundMedicalSlot == null) {
-                throw NonExistentMedicalSlotException(id)
+                val message = "Medical slot whose id is $id was not found."
+                throw NonExistentMedicalSlotException(message)
             }
             foundMedicalSlot
         }

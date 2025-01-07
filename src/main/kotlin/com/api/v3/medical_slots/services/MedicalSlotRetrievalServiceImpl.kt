@@ -1,8 +1,7 @@
-package com.api.v3.medical_slots.services.impl
+package com.api.v3.medical_slots.services
 
 import com.api.v3.medical_slots.domain.MedicalSlotRepository
 import com.api.v3.medical_slots.dtos.MedicalSlotResponseDto
-import com.api.v3.medical_slots.services.MedicalSlotRetrievalService
 import com.api.v3.medical_slots.utils.MedicalSlotFinderUtil
 import com.api.v3.medical_slots.utils.MedicalSlotResponseMapper
 import kotlinx.coroutines.Dispatchers
