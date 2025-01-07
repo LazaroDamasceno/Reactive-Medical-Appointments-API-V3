@@ -9,8 +9,8 @@ import java.time.ZoneId
 
 @Document
 class MedicalSlot(
-    var doctor: Doctor,
-    var availableAt: LocalDateTime
+    val doctor: Doctor,
+    val availableAt: LocalDateTime
 ) {
 
     @BsonId

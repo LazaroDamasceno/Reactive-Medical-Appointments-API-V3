@@ -10,14 +10,14 @@ import java.time.ZoneId
 
 @Document
 class MedicalAppointment(
-    var customer: Customer,
-    var doctor: Doctor,
-    var bookedAt: LocalDateTime
+    val customer: Customer,
+    val doctor: Doctor,
+    val bookedAt: LocalDateTime
 ) {
 
     @BsonId
     val id: ObjectId = ObjectId()
-    val bookedAtZoneId: ZoneId = ZoneId.systemDefault()
+    val bookedAtZone: ZoneId = ZoneId.systemDefault()
     val createdAt: LocalDateTime = LocalDateTime.now()
     val createdAtZone: ZoneId = ZoneId.systemDefault()
     var canceledAt: LocalDateTime? = null
