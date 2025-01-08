@@ -1,6 +1,7 @@
 package com.api.v3.medical_slots.domain
 
 import com.api.v3.doctors.domain.Doctor
+import com.api.v3.medical_appointments.domain.MedicalAppointment
 import org.bson.codecs.pojo.annotations.BsonId
 import org.bson.types.ObjectId
 import org.springframework.data.mongodb.core.mapping.Document
@@ -16,6 +17,7 @@ class MedicalSlot(
     @BsonId
     val id: ObjectId = ObjectId()
     val availableAtZone: ZoneId = ZoneId.systemDefault()
+    var medicalAppointment: MedicalAppointment? = null
     val createdAt: LocalDateTime = LocalDateTime.now()
     val createdAtZone: ZoneId = ZoneId.systemDefault()
     var canceledAt: LocalDateTime? = null
