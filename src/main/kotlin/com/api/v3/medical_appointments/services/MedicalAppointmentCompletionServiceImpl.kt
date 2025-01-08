@@ -4,6 +4,8 @@ import com.api.v3.medical_appointments.domain.MedicalAppointment
 import com.api.v3.medical_appointments.domain.MedicalAppointmentRepository
 import com.api.v3.medical_appointments.exceptions.ImmutableMedicalAppointmentException
 import com.api.v3.medical_appointments.utils.MedicalAppointmentFinderUtil
+import com.api.v3.medical_slots.domain.MedicalSlotRepository
+import com.api.v3.medical_slots.utils.MedicalSlotFinderUtil
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.springframework.stereotype.Service
@@ -11,7 +13,9 @@ import org.springframework.stereotype.Service
 @Service
 class MedicalAppointmentCompletionServiceImpl(
     private val medicalAppointmentFinderUtil: MedicalAppointmentFinderUtil,
-    private val medicalAppointmentRepository: MedicalAppointmentRepository
+    private val medicalAppointmentRepository: MedicalAppointmentRepository,
+    private val medicalSlotFinderUtil: MedicalSlotFinderUtil,
+    private val medicalSlotRepository: MedicalSlotRepository
 ): MedicalAppointmentCompletionService {
 
     override suspend fun complete(id: String) {
@@ -20,7 +24,14 @@ class MedicalAppointmentCompletionServiceImpl(
             onCanceledMedicalAppointment(foundMedicalAppointment)
             onCompletedMedicalAppointment(foundMedicalAppointment)
             foundMedicalAppointment.markAsCompleted()
-            medicalAppointmentRepository.save(foundMedicalAppointment)
+            val savedMedicalAppointment = medicalAppointmentRepository.save(foundMedicalAppointment)
+            val foundMedicalSlot = medicalSlotFinderUtil.findActiveByDoctorAndAvailableAt(
+                foundMedicalAppointment.doctor,
+                foundMedicalAppointment.bookedAt
+            )
+            foundMedicalSlot!!.medicalAppointment = savedMedicalAppointment
+            foundMedicalSlot.markAsCompleted()
+            medicalSlotRepository.save(foundMedicalSlot)
         }
     }
 
