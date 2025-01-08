@@ -3,7 +3,6 @@ package com.api.v3.medical_slots.controller
 import com.api.v3.medical_slots.dtos.MedicalSlotRegistrationDto
 import com.api.v3.medical_slots.dtos.MedicalSlotResponseDto
 import com.api.v3.medical_slots.services.MedicalSlotCancellationService
-import com.api.v3.medical_slots.services.MedicalSlotCompletionService
 import com.api.v3.medical_slots.services.MedicalSlotRegistrationService
 import com.api.v3.medical_slots.services.MedicalSlotRetrievalService
 import jakarta.validation.Valid
@@ -16,7 +15,6 @@ import org.springframework.web.bind.annotation.*
 class MedicalSlotController(
     private val registrationService: MedicalSlotRegistrationService,
     private val retrievalService: MedicalSlotRetrievalService,
-    private val completionService: MedicalSlotCompletionService,
     private val cancellationService: MedicalSlotCancellationService
 ) {
 
@@ -38,12 +36,6 @@ class MedicalSlotController(
     @ResponseStatus(value = HttpStatus.OK)
     suspend fun findAll(): Flow<MedicalSlotResponseDto> {
         return retrievalService.findAll()
-    }
-
-    @PatchMapping("{id}/completion")
-    @ResponseStatus(value = HttpStatus.NO_CONTENT)
-    suspend fun complete(@PathVariable id: String) {
-        return completionService.complete(id)
     }
 
     @PatchMapping("{id}/cancellation")
