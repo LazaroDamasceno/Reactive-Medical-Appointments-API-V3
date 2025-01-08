@@ -1,5 +1,6 @@
 package com.api.v3.medical_slots.services
 
+import com.api.v3.medical_appointments.domain.MedicalAppointmentRepository
 import com.api.v3.medical_slots.domain.MedicalSlot
 import com.api.v3.medical_slots.domain.MedicalSlotRepository
 import com.api.v3.medical_slots.exceptions.ImmutableMedicalSlotException
@@ -11,7 +12,8 @@ import org.springframework.stereotype.Service
 @Service
 class MedicalSlotCancellationServiceImpl(
     private val medicalSlotFinderUtil: MedicalSlotFinderUtil,
-    private val medicalSlotRepository: MedicalSlotRepository
+    private val medicalSlotRepository: MedicalSlotRepository,
+    private val medicalAppointmentRepository: MedicalAppointmentRepository
 ): MedicalSlotCancellationService {
 
     override suspend fun cancel(id: String) {
@@ -20,6 +22,10 @@ class MedicalSlotCancellationServiceImpl(
             onCanceledMedicalSlot(foundMedicalSlot)
             onCompletedMedicalSlot(foundMedicalSlot)
             foundMedicalSlot.markAsCanceled()
+            val medicalAppointment = foundMedicalSlot.medicalAppointment
+            medicalAppointment!!.markAsCanceled()
+            val savedMedicalAppointment = medicalAppointmentRepository.save(medicalAppointment)
+            foundMedicalSlot.medicalAppointment = savedMedicalAppointment
             medicalSlotRepository.save(foundMedicalSlot)
         }
     }
