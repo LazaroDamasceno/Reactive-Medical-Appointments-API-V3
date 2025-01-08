@@ -11,6 +11,7 @@ import com.api.v3.medical_appointments.dtos.MedicalAppointmentResponseDto
 import com.api.v3.medical_appointments.exceptions.DuplicatedBookingDateTimeException
 import com.api.v3.medical_appointments.utils.MedicalAppointmentFinderUtil
 import com.api.v3.medical_appointments.utils.MedicalAppointmentResponseMapper
+import com.api.v3.medical_slots.domain.MedicalSlotRepository
 import com.api.v3.medical_slots.exceptions.NonExistentMedicalSlotException
 import com.api.v3.medical_slots.utils.MedicalSlotFinderUtil
 import jakarta.validation.Valid
@@ -21,6 +22,7 @@ import java.time.LocalDateTime
 
 @Service
 class MedicalAppointmentBookingServiceImpl(
+    private val medicalSlotRepository: MedicalSlotRepository,
     private val medicalAppointmentRepository: MedicalAppointmentRepository,
     private val medicalSlotFinderUtil: MedicalSlotFinderUtil,
     private val medicalAppointmentFinderUtil: MedicalAppointmentFinderUtil,
@@ -32,9 +34,12 @@ class MedicalAppointmentBookingServiceImpl(
         return withContext(Dispatchers.IO) {
             val foundDoctor = doctorFinderUtil.findByMedicalLicenseNumber(bookingDto.medicalLicenseNumber)
             val foundCustomer = customerFinderUtil.findBySsn(bookingDto.ssn)
+            val foundMedicalSlot = medicalSlotFinderUtil.findActiveByDoctorAndAvailableAt(foundDoctor, bookingDto.bookedAt)!!
             onDuplicatedBookingDateTime(foundCustomer, foundDoctor, bookingDto.bookedAt)
             onNonExistentMedicalSlot(foundDoctor, bookingDto.bookedAt)
             val medicalAppointment = MedicalAppointment.create(foundCustomer, foundDoctor, bookingDto.bookedAt)
+            foundMedicalSlot.medicalAppointment = medicalAppointment
+            medicalSlotRepository.save(foundMedicalSlot)
             val savedMedicalAppointment = medicalAppointmentRepository.save(medicalAppointment)
             MedicalAppointmentResponseMapper.map(savedMedicalAppointment)
         }
